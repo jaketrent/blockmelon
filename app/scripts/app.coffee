@@ -1,5 +1,7 @@
 
-define [], ->
+define ['canvas'], (canvas) ->
   'use strict'
 
-  '\'Allo \'Allo! from app coffee'
+  console.log canvas
+
+  
