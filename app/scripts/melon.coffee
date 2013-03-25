@@ -5,6 +5,9 @@ window.MELON = angular.module('melon', [])
 
 window.MELON.controller 'MelonCtrl', ['$scope', ($scope) ->
 
-  alert 'melons!'
+  $scope.image = 
+    url: "images/nacho.jpg"
+  
+
   
 ]
