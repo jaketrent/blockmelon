@@ -1,13 +1,14 @@
 window.MELON = angular.module('melon', [])
-  .config ['$httpProvider', ($httpProvider) ->
-    
-  ]
 
-window.MELON.controller 'MelonCtrl', ['$scope', ($scope) ->
+MELON.controller 'MelonCtrl', ['$scope', ($scope) ->
 
-  $scope.image = 
-    url: "images/nacho.jpg"
-  
+  $scope.image =
+    src: "images/nacho.jpg"
 
-  
+  # $scope.$on 'newImage', (evt, args) ->
+  #   console.log 'new image'
+
+    # put image into canvas
+
+
 ]

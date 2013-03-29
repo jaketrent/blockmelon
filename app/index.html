@@ -13,6 +13,7 @@
     <script src="components/angular/angular.js"></script>
     <script src="components/underscore/underscore.js"></script>
     <script src="scripts/melon.js"></script>
+    <script src="scripts/canvas-converter.js"></script>
     <script src="scripts/image-reader.js"></script>
     <!-- endbuild -->
   </head>
@@ -20,8 +21,9 @@
     <div class="container">
         <div class="hero-unit">
             <h1>Block Melon</h1>
-            <img ng-src="{{image.url}}" />
-            <file-reader inputName="asdf" />
+            <!-- <img ng-src="{{image.src}}" /> -->
+            <file-reader></file-reader>
+            <canvas-converter></canvas-converter>
         </div>
     </div>
 

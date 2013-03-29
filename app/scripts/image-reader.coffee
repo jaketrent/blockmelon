@@ -15,11 +15,18 @@ window.MELON.directive 'fileReader', ->
 
       reader.onload = (evt)->
         newImgBlob = new Blob [new Int8Array(evt.target.result)] #, { type: image.type }
+        newImgUrl = URL.createObjectURL newImgBlob
 
         scope.$apply ->
-          scope.image = _.extend scope.image,
-            url: URL.createObjectURL newImgBlob
-            name: newImgBlob.name
+          newImage = new Image()
+          # TODO: handle resize
+          newImage.src = newImgUrl
+          newImage.onload = ->
+            scope.image = _.extend scope.image,
+              src: newImgUrl.src
+              name: newImgBlob.name,
+              image: newImage
+            scope.$emit 'newImage', newImage
 
       # TODO: use angular bind?
       element.bind 'change', (evt)->
