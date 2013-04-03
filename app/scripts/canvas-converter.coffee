@@ -1,128 +1,73 @@
-window.MELON.directive 'canvasConverter', ->
+MELON.service 'canvasConverter', ->
   'use strict'
 
-  newPx = (i) ->
-    i % 4 is 0
-
-  newRow = (i, y, width) ->
-    i == (4 * width) * (y + 1)
-    # i > 0 && (((i * 4) * y) % (width * 4) == 0)
-    # (i * (y + 1)) == ((4 * width) - 1)
-    # (i * 4) >= ((y + 1) * width * 4)
-
-  fixData = (imgData, width) ->
-    fixed = {}
-    x = y = 0
-
-    _.each c, (px, i) ->
-      # console.log 'i'
-      if newRow i, y, width
-        # console.log 'new row!'
-        ++y
-        x = 0
-
-      if newPx(i)
-        # console.log 'newpx'
-        fixed["#{x},#{y}"] = { r: c[i], g: c[i + 1], b: c[i + 2], a: c[i + 3] }
-        ++x
-
-    fixed
-
-  # breakData = (fixed, orig, width, height) ->
-  #   i = 0
-  #   _.each [0..(height - 1)], (y) ->
-  #     _.each [0..(width - 1)], (x) ->
-  #       px = fixed["#{x},#{y}"]
-  #       if px?
-  #         orig.data[i] = px.r
-  #         orig.data[i + 1] = px.g
-  #         orig.data[i + 2] = px.b
-  #         orig.data[i + 3] = px.a
-  #         i += 4
-  #       else
-  #         # swallow silently in despair
-  #         #console.error "x,y: #{x}, #{y}"
-  #   orig
-
-  # findColor = (pxs, startX, startY, pxWidth, pxHeight) ->
-  #   rTotal = gTotal = bTotal = aTotal = 0
-  #   _.each [startY..(startY + pxHeight - 1)], (y) ->
-  #     _.each [startX..(startX + pxWidth - 1)], (x) ->
-  #       px = pxs["#{x},#{y}"]
-  #       if px?
-  #         rTotal += px.r
-  #         gTotal += px.g
-  #         bTotal += px.b
-  #         #aTotal += px.a
-  #   numPxs = pxWidth * pxHeight
-  #   px = {
-  #     r: rTotal / numPxs
-  #     g: gTotal / numPxs
-  #     b: bTotal / numPxs
-  #     a: 1 #aTotal / numPxs
-  #   }
-  #   console.log px
-  #   px
-
-  # isStartNewBlock = (x, y, pxWidth, pxHeight) ->
-  #   #(x == 0 && y == 0) || ((x + 1) % pxWidth == 0) && ((y + 1) % pxHeight == 0)
-  #   # testing values:
-  #   (x == 0 && y == 0) || (x == 25 && y == 0) || (x == 0 && y == 25) || (x == 25 && y == 25)
-
-  # pixelate = (pxs, width, height, numPxWide, numPxHigh) ->
-  #   pxHeight = Math.ceil(height / numPxHigh)
-  #   pxWidth = Math.ceil(width / numPxWide)
-
-  #   _.each [0..(height - 1)], (y) ->
-  #     _.each [0..(width - 1)], (x) ->
-  #       if isStartNewBlock x, y, pxWidth, pxHeight
-  #         console.log 'start new block'
-  #         color = findColor pxs, x * pxWidth, y * pxHeight, pxWidth, pxHeight
-  #       pxs["#{x},#{y}"] = {r:100, g:100, b:100, a:1} #color
-  #   pxs
-
-  # fakeColor = (imgData, width, height, px) ->
-  #   console.log "imgData data len: #{imgData.data.length}"
-  #   _.each imgData.data, (data, i) ->
-  #     if newPx i
-  #       imgData.data[i] = px.r
-  #       imgData.data[i + 1] = px.g
-  #       imgData.data[i + 2] = px.b
-  #       imgData.data[i + 3] = px.a
-  #   console.log imgData.data[9000]
-  #   imgData
-
-
   {
-    restrict: 'AE'
-    replace: true
-    scope: false
-    template: """
-      <div>
-        <canvas id="canvas" height="50" width="50"></canvas>
-        <canvas id="canvas2" height="50" width="50"></canvas>
-      </div>
-    """
-    link: (scope, element, attrs) ->
+    pixelate: (imageData) ->
+      imageData
 
-      ctx = document.getElementById('canvas')?.getContext('2d')
+    unformatData: (imageData) ->
 
-      scope.$on 'newImage', (evt, image) ->
-        ctx.drawImage(image, 0, 0, 50, 50)
-        imgData = ctx.getImageData(0, 0, 50, 50)
+      newRow = (i) ->
+        i % 4 is 0
 
-        console.log 'imgData'
-        console.log imgData
+      mkSinglePxArray = (imageData) ->
+        pxs = []
+        pts = imageData.data
+        _.each pts, (pt, i) ->
+          if newRow i
+            pxs.push { r: pts[i], g: pts[i + 1], b: pts[i + 2], a: pts[i + 3] }
+        pxs
 
-        fixed = fixData(imgData.data, 4)
-        # # pixelated = pixelate fixed, 50, 50, 25, 25
-        # pixelated = fakeColor ctx.createImageData(50, 50), 50, 50, { r:0, g:0, b:0, a:1 }
+      mkMultiDimArray = (pxs, height, width) ->
+        rows = []
+        _.each [0..height - 1], (row) ->
+          rows.push pxs.slice 0, width
+        rows
 
-        # #broken = breakData(pixelated, imgData, 50, 50)
+      pxs = mkSinglePxArray imageData
+      unformattedData = mkMultiDimArray pxs, imageData.height, imageData.width
+      imageData.unformattedData = unformattedData
+      imageData
 
-        # ctx2 = document.getElementById('canvas2').getContext('2d')
-        # ctx2.putImageData(pixelated, 0, 0)
+    reformatData: (imageData) ->
+      arrOfPxArr = []
+      splitPx = (px) ->
+        [px.r, px.g, px.b, px.a]
 
+      singleDimPxObj = _.flatten imageData.unformattedData
 
+      arrOfPxArr.push splitPx px for px in singleDimPxObj
+      singleDimPxArr = _.flatten arrOfPxArr
+
+      imageData.reformattedData = singleDimPxArr
+      imageData
+
+    setColor: (imageData, color, sx=0, sy=0, ex=imageData.width - 1, ey=imageData.height - 1) ->
+      # TODO: optimize -- return if outside box twice (x & y)
+      _.each imageData.unformattedData, (row, y) =>
+        _.each row, (px, x) =>
+          if @isInBox x, y, sx, sy, ex, ey
+            imageData.unformattedData[y][x] = color
+      imageData
+
+    isInBox: (x, y, sx, sy, ex, ey) ->
+      sx <= x <= ex && sy <= y <= ey
+
+    createBox: ->
+      [0, 0, 0, 0]
+
+    getAverageColor: (imageData, sx=0, sy=0, ex=imageData.width - 1, ey=imageData.height - 1) ->
+      # TODO: optimize -- return if outside box twice (x & y)
+      rTotal = 0
+      gTotal = 0
+      bTotal = 0
+      numPxs = (ex - sx + 1) * (ey - sy + 1) #imageData.width * imageData.height
+      _.each imageData.unformattedData, (row, y) =>
+        _.each row, (px, x) =>
+          if @isInBox x, y, sx, sy, ex, ey
+            rTotal += px.r
+            gTotal += px.g
+            bTotal += px.b
+      { r: rTotal / numPxs, g: gTotal / numPxs, b: bTotal / numPxs, a: 1 }
 
   }
