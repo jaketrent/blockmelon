@@ -80,13 +80,13 @@ describe 'canvasConverter', ->
       imageData = cc.unformatData imageData
 
     it 'sets color over a whole image', ->
-      color = { r: 255, g: 255, b: 255, a: 1 }
+      color = { r: 255, g: 255, b: 255, a: 255 }
       imageData = cc.setColor imageData, color
 
       color.should.eq coloredPx for coloredPx in _.flatten imageData.unformattedData
 
     it 'sets color over a specified region', ->
-      color = { r: 255, g: 255, b: 255, a: 1 }
+      color = { r: 255, g: 255, b: 255, a: 255 }
       defaultColor = { r: 0, g: 0, b: 0, a: 0 }
       sx = 0
       sy = 0
@@ -113,7 +113,7 @@ describe 'canvasConverter', ->
     beforeEach ->
       imageData = ctx.createImageData(50, 50) #creates 50 x 50 black, alpha 0 image
       imageData = cc.unformatData imageData
-      white = { r: 255, g: 255, b: 255, a: 1 }
+      white = { r: 255, g: 255, b: 255, a: 255 }
       sx = 0
       sy = 0
       ex = 24
@@ -123,7 +123,7 @@ describe 'canvasConverter', ->
     it 'can find color average of whole image', ->
       # black 3 quads, white 1 quad
       # (255+0+0+0)/4 = 63.75 for all r, g, b
-      lightGray = { r: 63.75, g: 63.75, b: 63.75, a:1 }
+      lightGray = { r: 63.75, g: 63.75, b: 63.75, a: 255 }
       color = cc.getAverageColor imageData
       color.r.should.eq lightGray.r
       color.g.should.eq lightGray.g
@@ -136,7 +136,7 @@ describe 'canvasConverter', ->
       # black 3 quads, white 1 quad
       # but just look at the region across 1 black and 1 white quad
       # ((255*12)+(0*12))/(12+12) = 127.5 for all r, g, b
-      moreGray = { r: 127.5, g: 127.5, b: 127.5, a:1 }
+      moreGray = { r: 127.5, g: 127.5, b: 127.5, a:255 }
       sx = 12
       sy = 0
       ex = 37
