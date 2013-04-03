@@ -5,8 +5,17 @@ MELON.service 'canvasConverter', ->
     pixelate: (imageData) ->
       imageData = @unformatData imageData
 
-      # color = { r: 255, g: 255, b: 255, a: 1 }
-      # imageData = @setColor imageData, color, 12, 12, 36, 36
+      nw = @getAverageColor imageData, 0, 0, 24, 24
+      imageData = @setColor imageData, nw, 0, 0, 24, 24
+
+      ne = @getAverageColor imageData, 25, 0, 49, 24
+      imageData = @setColor imageData, ne, 25, 0, 49, 24
+
+      sw = @getAverageColor imageData, 0, 25, 24, 49
+      imageData = @setColor imageData, sw, 0, 25, 24, 49
+
+      # se = @getAverageColor imageData, 25, 25, 49, 49
+      # imageData = @setColor imageData, se, 25, 25, 49, 49
 
       imageData = @reformatData imageData
       imageData
@@ -37,22 +46,23 @@ MELON.service 'canvasConverter', ->
       imageData.unformattedData = unformattedData
       imageData
 
-    setDataAttr: (imageData, newData) ->
-      _.each newData, (pt, i) ->
-        imageData.data[i] = pt
-      imageData
-
     reformatData: (imageData) ->
       arrOfPxArr = []
+
       splitPx = (px) ->
         [px.r, px.g, px.b, px.a]
+
+      setDataAttr = (imageData, newData) ->
+        _.each newData, (pt, i) ->
+          imageData.data[i] = pt
+        imageData
 
       singleDimPxObj = _.flatten imageData.unformattedData
 
       arrOfPxArr.push splitPx px for px in singleDimPxObj
       singleDimPxArr = _.flatten arrOfPxArr
 
-      imageData = @setDataAttr imageData, singleDimPxArr
+      imageData = setDataAttr imageData, singleDimPxArr
       imageData
 
     setColor: (imageData, color, sx=0, sy=0, ex=imageData.width - 1, ey=imageData.height - 1) ->
@@ -78,6 +88,7 @@ MELON.service 'canvasConverter', ->
             rTotal += px.r
             gTotal += px.g
             bTotal += px.b
-      { r: rTotal / numPxs, g: gTotal / numPxs, b: bTotal / numPxs, a: 1 }
+      { r: rTotal / numPxs, g: gTotal / numPxs, b: bTotal / numPxs, a: 255 }
+      # { r: 255, g: 0, b: 0, a: 255 }
 
   }
