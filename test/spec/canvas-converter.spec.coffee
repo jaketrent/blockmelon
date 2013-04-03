@@ -43,10 +43,11 @@ describe 'canvasConverter', ->
 
     it '#reformatData creates a singledimensional array', ->
       # relies on previous test having run already
+      originalData = imageData.data
       imageData = cc.reformatData imageData
-      imageData.reformattedData.length.should.eq (50 * 50 * 4)
-      _.each imageData.reformattedData, (pt, i) ->
-        pt.should.eq imageData.data[i]
+      imageData.data.length.should.eq (50 * 50 * 4)
+      _.each imageData.data, (pt, i) ->
+        pt.should.eq originalData[i]
       # TODO: determine why this won't work
       # imageData.reformattedData[444].should.eq imageData.data[444]
 

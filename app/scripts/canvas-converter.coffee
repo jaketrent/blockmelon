@@ -3,6 +3,12 @@ MELON.service 'canvasConverter', ->
 
   {
     pixelate: (imageData) ->
+      imageData = @unformatData imageData
+
+      # color = { r: 255, g: 255, b: 255, a: 1 }
+      # imageData = @setColor imageData, color, 12, 12, 36, 36
+
+      imageData = @reformatData imageData
       imageData
 
     unformatData: (imageData) ->
@@ -20,13 +26,20 @@ MELON.service 'canvasConverter', ->
 
       mkMultiDimArray = (pxs, height, width) ->
         rows = []
-        _.each [0..height - 1], (row) ->
-          rows.push pxs.slice 0, width
+        _.each [0..height - 1], (row, i) ->
+          start = i * width
+          end = start + width
+          rows.push pxs.slice start, end
         rows
 
       pxs = mkSinglePxArray imageData
       unformattedData = mkMultiDimArray pxs, imageData.height, imageData.width
       imageData.unformattedData = unformattedData
+      imageData
+
+    setDataAttr: (imageData, newData) ->
+      _.each newData, (pt, i) ->
+        imageData.data[i] = pt
       imageData
 
     reformatData: (imageData) ->
@@ -39,7 +52,7 @@ MELON.service 'canvasConverter', ->
       arrOfPxArr.push splitPx px for px in singleDimPxObj
       singleDimPxArr = _.flatten arrOfPxArr
 
-      imageData.reformattedData = singleDimPxArr
+      imageData = @setDataAttr imageData, singleDimPxArr
       imageData
 
     setColor: (imageData, color, sx=0, sy=0, ex=imageData.width - 1, ey=imageData.height - 1) ->
@@ -52,9 +65,6 @@ MELON.service 'canvasConverter', ->
 
     isInBox: (x, y, sx, sy, ex, ey) ->
       sx <= x <= ex && sy <= y <= ey
-
-    createBox: ->
-      [0, 0, 0, 0]
 
     getAverageColor: (imageData, sx=0, sy=0, ex=imageData.width - 1, ey=imageData.height - 1) ->
       # TODO: optimize -- return if outside box twice (x & y)
