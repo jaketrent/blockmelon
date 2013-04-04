@@ -9,11 +9,33 @@ window.MELON.directive 'canvasDisplay', ['canvasConverter', (canvasConverter) ->
       <div>
         <canvas id="cc-canvas" class="cc-canvas cc-input-canvas" height="200" width="200"></canvas>
         <canvas id="cc-canvas2" ng-show="haveImage" class="cc-canvas cc-ouput-canvas" height="200" width="200"></canvas>
-        <div ng-show="haveImage" class="cc-range">
-          <span class="cc-range-label">5px</span>
-          <input ng-change="changePxSize()" ng-model="pxSize" class="cc-range-slider" type="range" min="5" max="100" step="10" />
-          <span class="cc-range-label">100px</span>
-          <input ng-change="changePxSize()" type="text" class="cc-range-val" ng-model="pxSize" ng-max="100" ng-min="5" />
+        <div ng-show="haveImage">
+          <a ng-show="!changingPx" class="bm-link cc-change-px-link" ng-click="changingPx=true">Change Block Size (optional)</a>
+          <ul ng-show="changingPx" class="cc-ranges">
+            <li ng-click="changePx(5)" class="cc-range">
+              <div class="cc-range-label">5px</div>
+              <div class="cc-range-box" style="width:20px"></div>
+            </li>
+            <li ng-click="changePx(10)" class="cc-range">
+              <div class="cc-range-label">10px</div>
+              <div class="cc-range-box" style="width:25px"></div>
+            </li>
+            <li ng-click="changePx(20)" class="cc-range">
+              <div class="cc-range-label">20px</div>
+              <div class="cc-range-box" style="width:40px"></div>
+            </li>
+            <li ng-click="changePx(40)" class="cc-range">
+              <div class="cc-range-label">40px</div>
+              <div class="cc-range-box" style="width:50px"></div>
+            </li>
+            <li ng-click="changePx(100)" class="cc-range">
+              <div class="cc-range-label">100px</div>
+              <div class="cc-range-box" style="width:60px"></div>
+            </li>
+            <li class="cc-range">
+              <a class="cc-range-close" ng-click="changingPx=false">&times;</a>
+            </li>
+          </ul>
         </div>
         <a ng-show="haveImage" download class="btn bm-btn cc-save-btn">Save Blocks</a>
       </div>
@@ -45,7 +67,8 @@ window.MELON.directive 'canvasDisplay', ['canvasConverter', (canvasConverter) ->
 
       , 200
 
-      scope.changePxSize = ->
+      scope.changePx = (size) ->
+        scope.pxSize = size
         if scope.haveImage
           pixelate()
 
