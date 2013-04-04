@@ -87,8 +87,7 @@ body
   background-image: -webkit-radial-gradient(50% 50%, ellipse closest-side, rgba(255, 255, 255, .2) 1%, rgba(67, 68, 72, 0.55) 100%)
 
 .container
-  margin: 50px auto 0 auto
-  width: 500px
+  margin: 20px auto 0 auto
   text-align: center
 
 .title
@@ -166,20 +165,25 @@ body
     color: lighten(#ababab, 10%)
     padding-top: 40px
 
-
-
-// .cc-range
-//   margin: 10px auto
-
-//   .cc-range-val
-//     display: block
-//     margin: 0 auto
-//     width: 30px
-//     text-align: center
-
-//   .cc-range-label
-//     padding-top: -4px
-
 .cc-save-btn
   padding: 10px 20px
+  margin: 30px auto
+
+
+@media (min-width: 450px)
+
+  .container
+    margin-top: 30px
+
+
+@media (min-width: 750px)
+
+  .container
+    margin-top: 150px
+
+  .title
+    font-size: 50px
+
+  .cc-save-btn
+    margin-top: 80px
 
