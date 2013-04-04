@@ -12,25 +12,9 @@ window.MELON.directive 'canvasDisplay', ['canvasConverter', (canvasConverter) ->
         <div ng-show="haveImage">
           <a ng-show="!changingPx" class="bm-link cc-change-px-link" ng-click="changingPx=true">Change Block Size (optional)</a>
           <ul ng-show="changingPx" class="cc-ranges">
-            <li ng-click="changePx(5)" class="cc-range">
-              <div class="cc-range-label">5px</div>
-              <div class="cc-range-box" style="width:20px"></div>
-            </li>
-            <li ng-click="changePx(10)" class="cc-range">
-              <div class="cc-range-label">10px</div>
-              <div class="cc-range-box" style="width:25px"></div>
-            </li>
-            <li ng-click="changePx(20)" class="cc-range">
-              <div class="cc-range-label">20px</div>
-              <div class="cc-range-box" style="width:40px"></div>
-            </li>
-            <li ng-click="changePx(40)" class="cc-range">
-              <div class="cc-range-label">40px</div>
-              <div class="cc-range-box" style="width:50px"></div>
-            </li>
-            <li ng-click="changePx(100)" class="cc-range">
-              <div class="cc-range-label">100px</div>
-              <div class="cc-range-box" style="width:60px"></div>
+            <li ng-click="changePx(px.size)" class="cc-range" ng-repeat="px in pxOptions">
+              <div class="cc-range-label">{{px.size}}px</div>
+              <div class="cc-range-box" style="width:{{px.style}}px"></div>
             </li>
             <li class="cc-range">
               <a class="cc-range-close" ng-click="changingPx=false">&times;</a>
@@ -44,6 +28,13 @@ window.MELON.directive 'canvasDisplay', ['canvasConverter', (canvasConverter) ->
 
       scope.haveImage = false
       scope.pxSize = 20
+      scope.pxOptions = [
+        { size: 5, style: 20 }
+        { size: 10, style: 25 }
+        { size: 20, style: 40 }
+        { size: 40, style: 50 }
+        { size: 100, style: 60 }
+      ]
 
       ctx = document.getElementById('cc-canvas').getContext('2d')
       outCanvas = document.getElementById('cc-canvas2')
