@@ -7,7 +7,7 @@ window.MELON.directive 'imageReader', ->
     scope: false
     template: """
       <div>
-        <button class="btn ir-choose-btn" ng-show="isChoosing" ng-click="choose()">Choose Image</button>
+        <button class="btn bm-btn ir-choose-btn" ng-show="isChoosing" ng-click="choose()">Choose Image</button>
         <input class="ir-filechooser" name="{{inputName}}" type="file">
       </div>
     """
