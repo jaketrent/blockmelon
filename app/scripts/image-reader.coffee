@@ -9,6 +9,9 @@ window.MELON.directive 'imageReader', ->
       <div>
         <button class="btn bm-btn ir-choose-btn" ng-show="isChoosing" ng-click="choose()">Choose Image</button>
         <input class="ir-filechooser" name="{{inputName}}" type="file">
+        <div ng-show="!isChoosing">
+          or <a class="bm-link" ng-click="choose()">make more blocks</a>.
+        </div>
       </div>
     """
     link: (scope, element, attrs) ->

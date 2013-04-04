@@ -90,12 +90,28 @@ body
 .bm-btn
   +buttonBackground(#ff990c, #ff790c, #fff, 0 1px 1px rgba(255,255,255,.75))
   +box-shadow(inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.5))
+  display: inline-block
   margin: 15px auto 25px auto
   padding: 15px 40px
   text-transform: uppercase
   font-size: 20px
   cursor: pointer
   text-shadow: -1px -1px 1px rgba(0,0,0,.4)
+  text-decoration: none
+
+.bm-link
+  cursor: pointer
+  color: #fff
+  text-decoration: none
+  padding-bottom: 2px
+  border-bottom: 1px dashed #fff
+  letter-spacing: .1em
+  // text-transform: uppercase
+
+  &:hover
+    color: #ff790c
+    +transition(all .1s linear)
+    border-bottom: 1px solid #ff790c
 
 .ir-filechooser
   display: none
@@ -103,6 +119,18 @@ body
 .cc-canvas
   border: 1px solid #0e0e0e
 
+  &.cc-input-canvas
+    display: none
+
+.cc-range
+  margin: 10px auto
+
+  .cc-range-val
+    text-align: center
+
+  .cc-range-label
+    padding-top: -4px
 
 .cc-save-btn
-  display: block
+  padding: 10px 20px
+

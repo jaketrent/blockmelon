@@ -70,6 +70,7 @@ MELON.service 'canvasConverter', ->
             imageData.unformattedData[y][x] = color
       imageData
 
+    # TODO: refactor code clump
     isInBox: (x, y, sx, sy, ex, ey) ->
       sx <= x <= ex && sy <= y <= ey
 
