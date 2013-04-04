@@ -18,6 +18,7 @@ module.exports = function (grunt) {
     // configurable paths
     var yeomanConfig = {
         app: 'app',
+        tmp: '.tmp',
         dist: 'dist'
     };
 
@@ -220,6 +221,28 @@ module.exports = function (grunt) {
                         '.htaccess'
                     ]
                 }]
+            },
+            components: {
+                files: [{
+                    expand: true,
+                    dot: true,
+                    cwd: '<%= yeoman.app %>/components',
+                    dest: '<%= yeoman.tmp %>/components',
+                    src: [
+                        '**/*.{js,coffee}'
+                    ]
+                }]
+            },
+            html: {
+                files: [{
+                    expand: true,
+                    dot: true,
+                    cwd: '<%= yeoman.app %>',
+                    dest: '<%= yeoman.dist %>',
+                    src: [
+                        '*.html'
+                    ]
+                }]
             }
         },
         bower: {
@@ -258,10 +281,11 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'clean:dist',
         'coffee',
+        'copy:components',
         'compass:dist',
         'useminPrepare',
         'imagemin',
-        'htmlmin',
+        'copy:html',
         'concat',
         'cssmin',
         'uglify',
