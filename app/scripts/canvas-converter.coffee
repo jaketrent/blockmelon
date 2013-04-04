@@ -2,20 +2,17 @@ MELON.service 'canvasConverter', ->
   'use strict'
 
   {
-    pixelate: (imageData) ->
+    pixelate: (imageData, pxWidth=25, pxHeight=25) ->
       imageData = @unformatData imageData
 
-      nw = @getAverageColor imageData, 0, 0, 24, 24
-      imageData = @setColor imageData, nw, 0, 0, 24, 24
+      newBox = (x, y, pxWidth, pxHeight) ->
+        x % pxWidth is 0 && y % pxHeight is 0
 
-      ne = @getAverageColor imageData, 25, 0, 49, 24
-      imageData = @setColor imageData, ne, 25, 0, 49, 24
-
-      sw = @getAverageColor imageData, 0, 25, 24, 49
-      imageData = @setColor imageData, sw, 0, 25, 24, 49
-
-      # se = @getAverageColor imageData, 25, 25, 49, 49
-      # imageData = @setColor imageData, se, 25, 25, 49, 49
+      _.each imageData.unformattedData, (row, y) =>
+        _.each row, (px, x) =>
+          if newBox x, y, pxWidth, pxHeight
+            color = @getAverageColor imageData, x, y, (x + pxWidth - 1), (y + pxHeight - 1)
+            imageData = @setColor imageData, color, x, y, (x + pxWidth - 1), (y + pxHeight - 1)
 
       imageData = @reformatData imageData
       imageData

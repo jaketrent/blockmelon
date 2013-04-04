@@ -1,4 +1,4 @@
-window.MELON.directive 'fileReader', ->
+window.MELON.directive 'imageReader', ->
   'use strict'
 
   {
@@ -7,17 +7,26 @@ window.MELON.directive 'fileReader', ->
     scope: false
     template: """
       <div>
-        <input name="{{inputName}}" type="file">
+        <button class="btn ir-choose-btn" ng-show="isChoosing" ng-click="choose()">Choose Image</button>
+        <input class="ir-filechooser" name="{{inputName}}" type="file">
       </div>
     """
     link: (scope, element, attrs) ->
+
+      scope.isChoosing = true
+
+      scope.choose = ->
+        document.querySelector('.ir-filechooser').click()
+
       reader = if FileReader? then new FileReader() else false
 
       reader.onload = (evt)->
+        scope.isChoosing = false
         newImgBlob = new Blob [new Int8Array(evt.target.result)] #, { type: image.type }
         newImgUrl = URL.createObjectURL newImgBlob
 
         scope.$apply ->
+          console.log scope
           newImage = new Image()
           # TODO: handle resize
           newImage.src = newImgUrl

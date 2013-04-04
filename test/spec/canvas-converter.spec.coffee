@@ -148,7 +148,3 @@ describe 'canvasConverter', ->
       color.a.should.eq moreGray.a
       # TODO: determine why won't this work
       # color.should.eq moreGray
-
-  # describe 'Box Creation', ->
-
-  #   it 'creates coordinates', ->

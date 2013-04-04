@@ -1,14 +1,111 @@
-body
-  background: #acdacd
-  font-family: sans-serif
+$white: #fff
+$grayDark: #0e0e0e
+$btnBackground: $white !default
+$btnBackgroundHighlight: darken($white, 10%) !default
+$btnBorder: #bbb !default
 
-.hero-unit
+@mixin transition($transition...)
+  -webkit-transition: $transition
+  -moz-transition: $transition
+  -o-transition: $transition
+  transition: $transition
+
+@mixin box-shadow($shadow...)
+  -webkit-box-shadow: $shadow
+  -moz-box-shadow: $shadow
+  box-shadow: $shadow
+
+@mixin gradient-vertical($startColor: #555, $endColor: #333)
+  background-color: mix($startColor, $endColor, 60%)
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from($startColor), to($endColor)) // Safari 4+, Chrome 2+
+  background-image: -webkit-linear-gradient(top, $startColor, $endColor) // Safari 5.1+, Chrome 10+
+  background-image: linear-gradient(to bottom, $startColor, $endColor) // Standard, IE10
+  background-repeat: repeat-x
+
+@mixin gradientBar($primaryColor, $secondaryColor, $textColor: #fff, $textShadow: 0 -1px 0 rgba(0,0,0,.25))
+  color: $textColor
+  text-shadow: $textShadow
+  +gradient-vertical($primaryColor, $secondaryColor)
+  border-color: $secondaryColor $secondaryColor darken($secondaryColor, 15%)
+  border-color: rgba(0,0,0,.1) rgba(0,0,0,.1) fade-in(rgba(0,0,0,.1), 0.15)
+
+@mixin buttonBackground($startColor, $endColor, $textColor: #fff, $textShadow: 0 -1px 0 rgba(0,0,0,.25))
+  +gradientBar($startColor, $endColor, $textColor, $textShadow)
+
+  // in these cases the gradient won't cover the background, so we override
+  &:hover, &:active, &.active, &.disabled, &[disabled]
+    color: $textColor
+    background-color: $endColor
+    *background-color: darken($endColor, 5%)
+
+.btn
+  display: inline-block
+  padding: 4px 12px
+  margin-bottom: 0 // For input.btn
+  font-size: 14px
+  line-height: 1em
+  text-align: center
+  vertical-align: middle
+  cursor: pointer
+  +buttonBackground($btnBackground, $btnBackgroundHighlight, $grayDark, 0 1px 1px rgba(255,255,255,.75))
+  border: 1px solid $btnBorder
+  *border: 0 // Remove the border to prevent IE7's black border on input:focus
+  border-bottom-color: darken($btnBorder, 10%)
+  border-radius: 3px
+  +box-shadow(inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05))
+
+  // Hover state
+  &:hover
+    color: $grayDark
+    text-decoration: none
+    background-position: 0 -15px
+
+    // transition is only when going to hover, otherwise the background
+    // behind the gradient (there for IE<=9 fallback) gets mismatched
+    +transition(background-position .15s linear)
+
+
+  // Active state
+  &.active,
+  &:active
+    background-image: none
+    outline: 0
+    +box-shadow(inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05))
+
+body
+  background: #ababab
+  font-family: sans-serif
+  color: white
+
+.container
   margin: 50px auto 0 auto
   width: 300px
   text-align: center
 
-  input
-    display: inline-block
+.title
+  text-transform: uppercase
+  text-shadow: 1px 1px 2px rgba(black, .5)
 
-canvas
-  border: 1px solid #ababab
+
+.ir-choose-btn
+  +buttonBackground(#ff990c, #ff790c, #fff, 0 1px 1px rgba(255,255,255,.75))
+  +box-shadow(inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.5))
+  margin-bottom: 25px
+  padding: 15px 40px
+  text-transform: uppercase
+  font-size: 20px
+  cursor: pointer
+  text-shadow: -1px -1px 1px rgba(0,0,0,.4)
+
+
+.ir-filechooser
+  display: none
+
+.cc-canvas
+  border: 1px solid #0e0e0e
+
+  &.cc-input-canvas
+    display: none
+
+.cc-save-btn
+  display: block
