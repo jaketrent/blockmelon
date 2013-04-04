@@ -10,10 +10,10 @@ window.MELON.directive 'canvasDisplay', ['canvasConverter', (canvasConverter) ->
         <canvas id="cc-canvas" class="cc-canvas cc-input-canvas" height="200" width="200"></canvas>
         <canvas id="cc-canvas2" ng-show="haveImage" class="cc-canvas cc-ouput-canvas" height="200" width="200"></canvas>
         <div ng-show="haveImage" class="cc-range">
-          <div class="cc-range-val">{{pxSize}}px</div>
-          <span class="cc-range-label">10px</span>
-          <input ng-change="changePxSize()" ng-model="pxSize" class="cc-range-slider" type="range" min="10" max="100" step="10" />
+          <span class="cc-range-label">5px</span>
+          <input ng-change="changePxSize()" ng-model="pxSize" class="cc-range-slider" type="range" min="5" max="100" step="10" />
           <span class="cc-range-label">100px</span>
+          <input ng-change="changePxSize()" type="text" class="cc-range-val" ng-model="pxSize" ng-max="100" ng-min="5" />
         </div>
         <a ng-show="haveImage" download class="btn bm-btn cc-save-btn">Save Blocks</a>
       </div>
