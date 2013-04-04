@@ -59,13 +59,8 @@ $btnBorder: #bbb !default
     color: $grayDark
     text-decoration: none
     background-position: 0 -15px
-
-    // transition is only when going to hover, otherwise the background
-    // behind the gradient (there for IE<=9 fallback) gets mismatched
     +transition(background-position .15s linear)
 
-
-  // Active state
   &.active,
   &:active
     background-image: none
@@ -73,9 +68,23 @@ $btnBorder: #bbb !default
     +box-shadow(inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05))
 
 body
+  padding: 0
+  border: 0
+  min-height: 100%
   background: #ababab
+  background-image: url(/images/dark_wall.png)
   font-family: sans-serif
   color: white
+
+#bg
+  position: fixed
+  top: -10%
+  left: -10%
+  height: 120%
+  width: 120%
+  z-index: -1
+  pointer-events: none
+  background-image: -webkit-radial-gradient(50% 50%, ellipse closest-side, rgba(255, 255, 255, .2) 1%, rgba(67, 68, 72, 0.55) 100%)
 
 .container
   margin: 50px auto 0 auto
