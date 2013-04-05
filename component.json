@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "dependencies": {
     "angular": "~1.0.5",
-    "underscore": "~1.4.4"
+    "underscore": "~1.4.4",
     "canvas-to-blob": "git://github.com/blueimp/JavaScript-Canvas-to-Blob.git"
   },
   "devDependencies": {},
