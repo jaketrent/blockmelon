@@ -1,0 +1,33 @@
+@mixin transition($transition...)
+  -webkit-transition: $transition
+  -moz-transition: $transition
+  -o-transition: $transition
+  transition: $transition
+
+@mixin box-shadow($shadow...)
+  -webkit-box-shadow: $shadow
+  -moz-box-shadow: $shadow
+  box-shadow: $shadow
+
+@mixin gradient-vertical($startColor: #555, $endColor: #333)
+  background-color: mix($startColor, $endColor, 60%)
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from($startColor), to($endColor)) // Safari 4+, Chrome 2+
+  background-image: -webkit-linear-gradient(top, $startColor, $endColor) // Safari 5.1+, Chrome 10+
+  background-image: linear-gradient(to bottom, $startColor, $endColor) // Standard, IE10
+  background-repeat: repeat-x
+
+@mixin gradientBar($primaryColor, $secondaryColor, $textColor: #fff, $textShadow: 0 -1px 0 rgba(0,0,0,.25))
+  color: $textColor
+  text-shadow: $textShadow
+  +gradient-vertical($primaryColor, $secondaryColor)
+  border-color: $secondaryColor $secondaryColor darken($secondaryColor, 15%)
+  border-color: rgba(0,0,0,.1) rgba(0,0,0,.1) fade-in(rgba(0,0,0,.1), 0.15)
+
+@mixin buttonBackground($startColor, $endColor, $textColor: #fff, $textShadow: 0 -1px 0 rgba(0,0,0,.25))
+  +gradientBar($startColor, $endColor, $textColor, $textShadow)
+
+  // in these cases the gradient won't cover the background, so we override
+  &:hover, &:active, &.active, &.disabled, &[disabled]
+    color: $textColor
+    background-color: $endColor
+    *background-color: darken($endColor, 5%)

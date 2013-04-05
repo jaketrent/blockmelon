@@ -1,0 +1,46 @@
+.bm-btn
+  display: inline-block
+  padding: 4px 12px
+  margin-bottom: 0 // For input.btn
+  line-height: 1em
+  text-align: center
+  text-transform: uppercase
+  font-size: 20px
+  cursor: pointer
+  text-shadow: -1px -1px 1px rgba(0,0,0,.4)
+  text-decoration: none
+  vertical-align: middle
+  cursor: pointer
+  border: 1px solid $btnBorder
+  border-bottom-color: darken($btnBorder, 10%)
+  border-radius: 3px
+  +box-shadow(inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05))
+  +buttonBackground(#ff990c, #ff790c, #fff, 0 1px 1px rgba(255,255,255,.75))
+  +box-shadow(inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.5))
+
+  // Hover state
+  &:hover
+    color: inherit
+    text-decoration: none
+    background-position: 0 -15px
+    +transition(background-position .15s linear)
+
+  &.active,
+  &:active
+    background-image: none
+    outline: 0
+    +box-shadow(inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05))
+
+.bm-link
+  cursor: pointer
+  color: #fff
+  text-decoration: none
+  padding-bottom: 2px
+  border-bottom: 1px dashed #fff
+  letter-spacing: .1em
+  // text-transform: uppercase
+
+  &:hover
+    color: #ff790c
+    +transition(all .1s linear)
+    border-bottom: 1px solid #ff790c

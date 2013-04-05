@@ -21,7 +21,7 @@ window.MELON.directive 'canvasDisplay', ['canvasConverter', (canvasConverter) ->
             </li>
           </ul>
         </div>
-        <a ng-show="haveImage" download class="btn bm-btn cc-save-btn">Save Blocks</a>
+        <a ng-show="haveImage" download class="bm-btn cc-save-btn">Save Blocks</a>
       </div>
     """
     link: (scope, element, attrs) ->

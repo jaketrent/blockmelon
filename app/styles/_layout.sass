@@ -1,0 +1,42 @@
+
+body
+  padding: 0
+  border: 0
+  min-height: 100%
+  background: #ababab
+  background-image: url(/images/dark_wall.png)
+  font-family: sans-serif
+  color: white
+
+#bg
+  position: fixed
+  top: -10%
+  left: -10%
+  height: 120%
+  width: 120%
+  z-index: -1
+  pointer-events: none
+  background-image: -webkit-radial-gradient(50% 50%, ellipse closest-side, rgba(255, 255, 255, .2) 1%, rgba(67, 68, 72, 0.55) 100%)
+
+.container
+  margin: 20px auto 0 auto
+  text-align: center
+
+.title
+  text-transform: uppercase
+  text-shadow: 1px 1px 2px rgba(black, .5)
+  letter-spacing: 2px
+
+@media (min-width: $bp-med)
+
+  .container
+    margin-top: 30px
+
+
+@media (min-width: $bp-lrg)
+
+  .container
+    margin-top: 150px
+
+  .title
+    font-size: 50px
