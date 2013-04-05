@@ -7,21 +7,21 @@ window.MELON.directive 'canvasDisplay', ['canvasConverter', (canvasConverter) ->
     scope: false
     template: """
       <div>
-        <canvas id="cc-canvas" class="cc-canvas cc-input-canvas" height="200" width="200"></canvas>
-        <canvas id="cc-canvas2" ng-show="haveImage" class="cc-canvas cc-ouput-canvas" height="200" width="200"></canvas>
+        <canvas id="cd-canvas" class="cd-canvas cd-input-canvas" height="200" width="200"></canvas>
+        <canvas id="cd-canvas2" ng-show="haveImage" class="cd-canvas cd-ouput-canvas" height="200" width="200"></canvas>
         <div ng-show="haveImage">
-          <a ng-show="!changingPx" class="bm-link cc-change-px-link" ng-click="changingPx=true">Change Block Size (optional)</a>
-          <ul ng-show="changingPx" class="cc-ranges">
-            <li ng-click="changePx(px.size)" class="cc-range" ng-repeat="px in pxOptions">
-              <div class="cc-range-label">{{px.size}}px</div>
-              <div class="cc-range-box" style="width:{{px.style}}px"></div>
+          <a ng-show="!changingPx" class="bm-link cd-change-px-link" ng-click="changingPx=true">Change Block Size (optional)</a>
+          <ul ng-show="changingPx" class="cd-ranges">
+            <li ng-click="changePx(px.size)" class="cd-range" ng-repeat="px in pxOptions">
+              <div class="cd-range-label">{{px.size}}px</div>
+              <div class="cd-range-box" style="width:{{px.style}}px"></div>
             </li>
-            <li class="cc-range">
-              <a class="cc-range-close" ng-click="changingPx=false">&times;</a>
+            <li class="cd-range">
+              <a class="cd-range-close" ng-click="changingPx=false">&times;</a>
             </li>
           </ul>
         </div>
-        <a ng-show="haveImage" download class="bm-btn cc-save-btn">Save Blocks</a>
+        <a ng-show="haveImage" download class="bm-btn cd-save-btn">Save Blocks</a>
       </div>
     """
     link: (scope, element, attrs) ->
@@ -36,8 +36,8 @@ window.MELON.directive 'canvasDisplay', ['canvasConverter', (canvasConverter) ->
         { size: 100, style: 60 }
       ]
 
-      ctx = document.getElementById('cc-canvas').getContext('2d')
-      outCanvas = document.getElementById('cc-canvas2')
+      ctx = document.getElementById('cd-canvas').getContext('2d')
+      outCanvas = document.getElementById('cd-canvas2')
       ctx2 = outCanvas.getContext('2d')
       imageData = null
 
@@ -49,7 +49,7 @@ window.MELON.directive 'canvasDisplay', ['canvasConverter', (canvasConverter) ->
 
         outCanvas.toBlob (blob) ->
           bloblUrl = URL.createObjectURL blob
-          document.querySelector('.cc-save-btn').setAttribute 'href', bloblUrl
+          document.querySelector('.cd-save-btn').setAttribute 'href', bloblUrl
         , "image/jpeg", {
           maxH: 200
           maxW: 200
