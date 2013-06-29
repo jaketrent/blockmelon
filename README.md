@@ -1,2 +1,2 @@
 # Block Melon
-pixelator at blockmelon.herokuapp.com
+pixelator at [blockmelon.herokuapp.com](http://blockmelon.herokuapp.com)
